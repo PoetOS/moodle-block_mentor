@@ -2709,8 +2709,8 @@ function block_fn_mentor_activity_progress($course, $menteeid, $modgradesarray) 
             '/blocks/fn_mentor/pix/unmarked.gif" class="icon" alt="">';
 
         $progressdata->completed = $completedactivities + $incompletedactivities;
-        $progressdata->total = $completedactivities + $incompletedactivities + $savedactivities + $notattemptedactivities +
-            $waitingforgradeactivities;
+        $progressdata->total = $completedactivities + $incompletedactivities + $savedactivities + $notattemptedactivities
+            + $waitingforgradeactivities;
 
         $sql = "SELECT gg.id,
                        gg.rawgrademax,
