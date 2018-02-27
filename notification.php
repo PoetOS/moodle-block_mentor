@@ -106,7 +106,7 @@ if ($mform->is_cancelled()) {
         'g4', 'g4_value', 'g5', 'g5_value', 'g6', 'g6_value', 'consecutive', 'consecutive_value',
         'n1', 'n1_value', 'n2', 'n2_value', 'period', 'mentoremail', 'mentorsms',
         'studentemail', 'studentsms', 'teacheremail', 'teachersms',
-        'studentmsgenabled', 'mentormsgenabled','teachermsgenabled',
+        'studentmsgenabled', 'mentormsgenabled', 'teachermsgenabled',
         'studentgreeting', 'mentorgreeting', 'teachergreeting', 'messagecontent'
     );
 

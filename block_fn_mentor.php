@@ -261,7 +261,8 @@ class block_fn_mentor extends block_base {
         if (($isadmin || $ismentor)) {
 
             $groupurl = array(
-                0 => $CFG->wwwroot.'/'.$indexphp.'?coursefilter='.$coursefilter.'&groupfilter=0&sortby='.$sortby.'&showall='.$showall
+                0 => $CFG->wwwroot.'/'.$indexphp.'?coursefilter='.$coursefilter.'&groupfilter=0&sortby='.$sortby.
+                    '&showall='.$showall
             );
             $groupmenu = array($groupurl[0] => get_string('allmentorgroups', 'block_fn_mentor'));
             if ($isadmin) {
@@ -278,7 +279,8 @@ class block_fn_mentor extends block_base {
             }
             if ($groups && $usementorgroups) {
                 foreach ($groups as $group) {
-                    $groupurl[$group->id] = $CFG->wwwroot.'/'.$indexphp.'?coursefilter='.$coursefilter.'&groupfilter='.$group->id.'&sortby='.$sortby.'&showall='.$showall;
+                    $groupurl[$group->id] = $CFG->wwwroot.'/'.$indexphp.'?coursefilter='.$coursefilter.
+                        '&groupfilter='.$group->id.'&sortby='.$sortby.'&showall='.$showall;
                     $groupmenu[$groupurl[$group->id]] = $group->name;
                 }
                 $this->content->text .= html_writer::tag('form',
@@ -328,14 +330,15 @@ class block_fn_mentor extends block_base {
 
                     $this->content->text .= '<div class="mentee-footer-menu">';
 
-                    $toomanyusersurl = $CFG->wwwroot.'/'.$indexphp.'?sortby='.$sortby.'&groupfilter='.$groupfilter.'&coursefilter='.$coursefilter.'&showall=1';
-                    $this->content->text .= '<div class="too-many-users">'.get_string('toomanyusers', 'block_fn_mentor', $toomanyusersurl).'</div>';
+                    $toomanyusersurl = $CFG->wwwroot.'/'.$indexphp.'?sortby='.$sortby.'&groupfilter='.$groupfilter.
+                        '&coursefilter='.$coursefilter.'&showall=1';
+                    $this->content->text .= '<div class="too-many-users">'.
+                        get_string('toomanyusers', 'block_fn_mentor', $toomanyusersurl).'</div>';
 
                     $this->content->text .= '<div class="too-many-users last">'.
                         '<a class="btn btn-secondary" href="'.$CFG->wwwroot.'/blocks/fn_mentor/course_overview.php">'.
                         '<img src="'.$OUTPUT->pix_url('i/group').'" class="mentee-img"> '.
                         get_string('open_progress_reports', 'block_fn_mentor').'</a></div>';
-
 
                     $this->content->text .= '</div>';
                 } else {

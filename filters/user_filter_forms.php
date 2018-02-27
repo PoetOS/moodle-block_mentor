@@ -23,6 +23,8 @@
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
+defined('MOODLE_INTERNAL') || die();
+
 require_once($CFG->libdir.'/formslib.php');
 
 /**
@@ -43,7 +45,7 @@ class fn_user_add_filter_form extends moodleform {
         $mform->addElement('header', 'newfilter', get_string('newfilter', 'filters'));
 
         foreach ($fields as $ft) {
-            $ft->setupForm($mform);
+            $ft->setup_form($mform);
         }
 
         // In case we wasnt to track some page params.

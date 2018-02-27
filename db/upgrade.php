@@ -20,6 +20,8 @@
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
+defined('MOODLE_INTERNAL') || die();
+
 function xmldb_block_fn_mentor_upgrade($oldversion) {
     global $DB;
 
@@ -296,7 +298,6 @@ function xmldb_block_fn_mentor_upgrade($oldversion) {
             $dbman->create_table($table);
         }
 
-
         $table = new xmldb_table('block_fn_mentor_group_mem');
 
         $table->add_field('id', XMLDB_TYPE_INTEGER, '18', null, XMLDB_NOTNULL, XMLDB_SEQUENCE, null);
@@ -314,7 +315,6 @@ function xmldb_block_fn_mentor_upgrade($oldversion) {
         if (!$dbman->table_exists($table)) {
             $dbman->create_table($table);
         }
-
 
         upgrade_block_savepoint(true, 2017060600, 'fn_mentor');
     }
@@ -338,7 +338,6 @@ function xmldb_block_fn_mentor_upgrade($oldversion) {
         if (!$dbman->table_exists($table)) {
             $dbman->create_table($table);
         }
-
 
         // Define table block_fn_mentor_group_mem to be created.
         $table = new xmldb_table('block_fn_mentor_group_mem');

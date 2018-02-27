@@ -107,54 +107,54 @@ if ($completion->is_enabled() && !empty($completion)) {
                         if ($grade = $gradefunction($instance, $menteeid)) {
                             if ($item->gradepass > 0) {
                                 if ($grade[$menteeid]->rawgrade >= $item->gradepass) {
-                                    // Passed
+                                    // Passed.
                                     ++$completedactivities;
                                 } else {
                                     // Failed
                                     ++$incompletedactivities;
                                 }
                             } else {
-                                // Graded
+                                // Graded.
                                 ++$completedactivities;
                             }
                         } else {
-                            // Ungraded
+                            // Ungraded.
                             ++$notattemptedactivities;
                         }
                     } else if ($modstatus = block_fn_mentor_assignment_status($activity, $menteeid, true)) {
                         switch ($modstatus) {
                             case 'submitted':
                                 if ($instance->grade == 0) {
-                                    // Graded
+                                    // Graded.
                                     ++$completedactivities;
-                                } elseif ($grade = $gradefunction($instance, $menteeid)) {
+                                } else if ($grade = $gradefunction($instance, $menteeid)) {
                                     if ($item->gradepass > 0) {
                                         if ($grade[$menteeid]->rawgrade >= $item->gradepass) {
-                                            // Passed
+                                            // Passed.
                                             ++$completedactivities;
                                         } else {
                                             // Fail.
                                             ++$incompletedactivities;
                                         }
                                     } else {
-                                        // Graded
+                                        // Graded.
                                         ++$completedactivities;
                                     }
                                 }
                                 break;
 
                             case 'saved':
-                                // Saved
+                                // Saved.
                                 ++$savedactivities;
                                 break;
 
                             case 'waitinggrade':
-                                // Waiting for grade
+                                // Waiting for grade.
                                 ++$waitingforgradeactivities;
                                 break;
                         }
                     } else {
-                        // Ungraded
+                        // Ungraded.
                         ++$notattemptedactivities;
                     }
                 }
@@ -246,10 +246,9 @@ if ($show == 'completed') {
             if ($activity->modname == 'assign') {
                 if ($assignment = $DB->get_record('assign', array('id' => $activity->instance))) {
                     if ($assignment->grade == 0) {
-                        if ($submission = $DB->get_records('assign_submission', array(
-                            'assignment' => $assignment->id, 'userid' => $menteeid), 'attemptnumber DESC', '*', 0, 1)
-                        ) {
-                           $shownogradeassignment = true;
+                        if ($submission = $DB->get_records('assign_submission',
+                            array('assignment' => $assignment->id, 'userid' => $menteeid), 'attemptnumber DESC', '*', 0, 1)) {
+                            $shownogradeassignment = true;
                         }
                     }
                 }

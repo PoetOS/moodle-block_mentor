@@ -20,7 +20,7 @@
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
-define('NO_OUTPUT_BUFFERING', true); // progress bar is used here
+define('NO_OUTPUT_BUFFERING', true); // Progress bar is used here.
 
 require_once('../../config.php');
 require_once($CFG->dirroot . '/blocks/fn_mentor/lib.php');
@@ -44,7 +44,7 @@ if (!$isteacher && !$isadmin && !$ismentor) {
 $PAGE->set_url('/blocks/fn_mentor/update_all_students_data.php');
 $PAGE->set_context(context_system::instance());
 $PAGE->set_pagelayout('course');
-$PAGE->set_cacheable(false);    // progress bar is used here
+$PAGE->set_cacheable(false);    // Progress bar is used here.
 $PAGE->requires->css('/blocks/fn_mentor/css/styles.css');
 
 $title = get_string('updatedata', 'block_fn_mentor');

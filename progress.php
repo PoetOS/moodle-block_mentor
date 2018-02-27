@@ -23,7 +23,7 @@
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
-define('NO_OUTPUT_BUFFERING', true); // progress bar is used here
+define('NO_OUTPUT_BUFFERING', true); // Progress bar is used here.
 
 require(dirname(dirname(dirname(__FILE__))) . '/config.php');
 require_once($CFG->dirroot . '/blocks/fn_mentor/lib.php');
@@ -36,7 +36,7 @@ $thispageurl = new moodle_url('/blocks/fn_mentor/progress.php');
 $PAGE->set_url($thispageurl);
 $PAGE->set_pagelayout('course');
 $PAGE->set_context($contextsystem);
-$PAGE->set_cacheable(false);    // progress bar is used here
+$PAGE->set_cacheable(false);    // Progress bar is used here.
 
 $name = get_string('companies', 'block_seat');
 $title = get_string('companies', 'block_seat');
@@ -51,9 +51,9 @@ $PAGE->set_heading($heading);
 echo $OUTPUT->header();
 
 $progressbar = new progress_bar();
-$progressbar->create();         // prints the HTML code of the progress bar
+$progressbar->create();         // Prints the HTML code of the progress bar.
 
-// we may need a bit of extra execution time and memory here
+// We may need a bit of extra execution time and memory here.
 core_php_time_limit::raise(HOURSECS);
 // raise_memory_limit(MEMORY_EXTRA);
 block_fn_mentor_generate_report($students, $progressbar);

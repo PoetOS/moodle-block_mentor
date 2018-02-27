@@ -151,13 +151,15 @@ foreach ($tablerows as $tablerow) {
                 // Edit.
                 $actionurl = new moodle_url('/blocks/fn_mentor/group_edit.php', array('id' => $tablerow->id ));
                 $actiontext = get_string('edit', 'block_fn_mentor');
-                $actionicon = html_writer::img($OUTPUT->pix_url('cog', 'block_fn_mentor'), $actiontext, array('width' => '16', 'height' => '16'));
+                $actionicon = html_writer::img($OUTPUT->pix_url('cog', 'block_fn_mentor'), $actiontext,
+                    array('width' => '16', 'height' => '16'));
                 $actionlinks .= html_writer::link($actionurl->out(), $actionicon,
                         array('class' => 'actionlink', 'title' => $actiontext)).' ';
                 // Delete.
                 $actionurl = new moodle_url('/blocks/fn_mentor/group_delete.php', array('id' => $tablerow->id ));
                 $actiontext = get_string('delete', 'block_fn_mentor');
-                $actionicon = html_writer::img($OUTPUT->pix_url('delete', 'block_fn_mentor'), $actiontext, array('width' => '16', 'height' => '16'));
+                $actionicon = html_writer::img($OUTPUT->pix_url('delete', 'block_fn_mentor'), $actiontext,
+                    array('width' => '16', 'height' => '16'));
                 $actionlinks .= html_writer::link($actionurl->out(), $actionicon,
                         array('class' => 'actionlink', 'title' => $actiontext)).' ';
 

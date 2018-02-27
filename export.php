@@ -183,11 +183,11 @@ if ($mform->is_cancelled()) {
 
         if ($includeextranedcolumns) {
             // Site group.
-            $sql = "SELECT g.id, g.name 
-                  FROM {groups} g 
-                  JOIN {groups_members} gm 
-                    ON g.id = gm.groupid 
-                 WHERE g.courseid = ? 
+            $sql = "SELECT g.id, g.name
+                  FROM {groups} g
+                  JOIN {groups_members} gm
+                    ON g.id = gm.groupid
+                 WHERE g.courseid = ?
                    AND gm.userid = ?";
             if ($sitegroups = $DB->get_records_sql($sql, array(SITEID, $user->id))) {
                 $sitegroups = reset($sitegroups);
@@ -195,11 +195,11 @@ if ($mform->is_cancelled()) {
             }
 
             // Site cohort.
-            $sql = "SELECT c.id, c.name, c.idnumber 
-                 FROM {cohort} c 
-                 JOIN {cohort_members} cm 
-                   ON c.id = cm.cohortid 
-                WHERE c.contextid = ? 
+            $sql = "SELECT c.id, c.name, c.idnumber
+                 FROM {cohort} c
+                 JOIN {cohort_members} cm
+                   ON c.id = cm.cohortid
+                WHERE c.contextid = ?
                   AND cm.userid = ?";
             if ($cohorts = $DB->get_records_sql($sql, array($contextsystem->id, $user->id))) {
                 $cohorts = reset($cohorts);
@@ -207,11 +207,11 @@ if ($mform->is_cancelled()) {
             }
 
             // Site and course theme.
-            $sql = "SELECT d.id, d.data 
-                      FROM {user_info_data} d 
-                      JOIN {user_info_field} f 
-                        ON d.fieldid = f.id 
-                     WHERE d.userid = ? 
+            $sql = "SELECT d.id, d.data
+                      FROM {user_info_data} d
+                      JOIN {user_info_field} f
+                        ON d.fieldid = f.id
+                     WHERE d.userid = ?
                        AND f.shortname = ?";
             $themefront = $DB->get_record_sql($sql, array($user->id, 'themefront'));
             $themecourse = $DB->get_record_sql($sql, array($user->id, 'themecourse'));

@@ -20,6 +20,8 @@
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
+defined('MOODLE_INTERNAL') || die();
+
 require_once($CFG->dirroot.'/mod/assignment/lib.php');
 require_once($CFG->dirroot.'/lib/completionlib.php');
 
@@ -237,7 +239,6 @@ function block_fn_mentor_get_mentors_without_mentee($filter = '', $sessionfilter
 
     return $DB->get_records_sql($sql, $params);
 
-
 }
 
 function block_fn_mentor_get_mentors_with_mentee() {
@@ -247,16 +248,16 @@ function block_fn_mentor_get_mentors_with_mentee() {
         return false;
     }
 
-    $sql = "SELECT u.id, 
-                   CONCAT(u.firstname, u.lastname) fullname 
-              FROM {context} ctx 
-        INNER JOIN {role_assignments} ra 
-                ON ctx.id = ra.contextid 
-        INNER JOIN {user} u 
-                ON ra.userid = u.id 
-             WHERE ctx.contextlevel = ? 
-               AND ra.roleid = ? 
-               AND u.deleted = ? 
+    $sql = "SELECT u.id,
+                   CONCAT(u.firstname, u.lastname) fullname
+              FROM {context} ctx
+        INNER JOIN {role_assignments} ra
+                ON ctx.id = ra.contextid
+        INNER JOIN {user} u
+                ON ra.userid = u.id
+             WHERE ctx.contextlevel = ?
+               AND ra.roleid = ?
+               AND u.deleted = ?
           GROUP BY u.id
           ORDER BY u.lastname ASC";
 
@@ -492,7 +493,6 @@ function block_fn_mentor_get_mentees($mentorid, $courseid=0, $studentids = '', $
         $params = array();
     }
 
-
     $extrasql = '';
     $extraparams = array();
     if ($sessionfilter) {
@@ -533,17 +533,17 @@ function block_fn_mentor_get_mentees($mentorid, $courseid=0, $studentids = '', $
         $mentees = array_intersect_key($mentees, $studentids);
     }
 
-
-    if (empty($studentids) && $gm = $DB->record_exists('block_fn_mentor_group_mem', array('teamleader' => 1, 'userid' => $mentorid, 'role' => 'M'))) {
-        $sql = "SELECT gm2.userid studentid, u.firstname, u.lastname 
-                  FROM {block_fn_mentor_group_mem} gm 
-                  JOIN {block_fn_mentor_group_mem} gm2 
+    if (empty($studentids) &&
+        $gm = $DB->record_exists('block_fn_mentor_group_mem', array('teamleader' => 1, 'userid' => $mentorid, 'role' => 'M'))) {
+        $sql = "SELECT gm2.userid studentid, u.firstname, u.lastname
+                  FROM {block_fn_mentor_group_mem} gm
+                  JOIN {block_fn_mentor_group_mem} gm2
                     ON gm.groupid = gm2.groupid
-                   AND gm2.role = 'U' 
-                  JOIN {user} u 
+                   AND gm2.role = 'U'
+                  JOIN {user} u
                     ON gm2.userid = u.id
-                 WHERE gm.userid = :mentorid 
-                   AND gm.role = 'M' 
+                 WHERE gm.userid = :mentorid
+                   AND gm.role = 'M'
                    AND gm.teamleader = 1
                        $extrasql";
         if ($groupmentees = $DB->get_records_sql($sql, $extraparams + array('mentorid' => $mentorid))) {
@@ -928,7 +928,8 @@ function block_fn_mentor_assignment_status($mod, $userid) {
         }
 
         $filesubmissionenabled = block_fn_mentor_assign_plugin_config($assignment->id, 'assignsubmission', 'file', 'enabled');
-        $onlinetextsubmissionenabled = block_fn_mentor_assign_plugin_config($assignment->id, 'assignsubmission', 'onlinetext', 'enabled');
+        $onlinetextsubmissionenabled = block_fn_mentor_assign_plugin_config($assignment->id, 'assignsubmission', 'onlinetext',
+            'enabled');
 
         if (!$submission = $DB->get_records('assign_submission', array(
             'assignment' => $assignment->id, 'userid' => $userid), 'attemptnumber DESC', '*', 0, 1)) {
@@ -974,11 +975,11 @@ function block_fn_mentor_assignment_status($mod, $userid) {
         if ($assignment->grade == 0) {
             if ($submission->status == 'new') {
                 return false;
-            } elseif ($submission->status == 'draft') {
+            } else if ($submission->status == 'draft') {
                 return 'saved';
-            } elseif ($submission->status == 'reopened') {
+            } else if ($submission->status == 'reopened') {
                 return 'submitted';
-            } elseif ($submission->status == 'submitted') {
+            } else if ($submission->status == 'submitted') {
                 return 'submitted';
             }
         } else {
@@ -988,15 +989,15 @@ function block_fn_mentor_assignment_status($mod, $userid) {
                 } else {
                     return 'waitinggrade';
                 }
-            } elseif ($submission->status == 'draft') {
+            } else if ($submission->status == 'draft') {
                 if ($graded) {
                     return 'submitted';
                 } else {
                     return 'saved';
                 }
-            } elseif ($submission->status == 'reopened') {
+            } else if ($submission->status == 'reopened') {
                 return 'submitted';
-            } elseif ($submission->status == 'submitted') {
+            } else if ($submission->status == 'submitted') {
                 if ($graded) {
                     return 'submitted';
                 } else {
@@ -1242,7 +1243,8 @@ function block_fn_mentor_print_grade_summary ($courseid , $studentid) {
     if ($courseaverage == false) {
         $warningimg = '<img class="actionicon" width="16" height="16" alt="" src="'.$OUTPUT->pix_url('i/warning', '').'"> ';
         $html .= '<tr>';
-        $html .= '<td colspan="2" class="overview-grade-right-warning" valign="middle">'.$warningimg.get_string('nocoursetotal', 'block_fn_mentor').'</td>';
+        $html .= '<td colspan="2" class="overview-grade-right-warning" valign="middle">'.$warningimg.
+            get_string('nocoursetotal', 'block_fn_mentor').'</td>';
         $html .= '</tr>';
     }
     $html .= '</table>';
@@ -1696,7 +1698,8 @@ function block_fn_mentor_render_notification_rule_table($notification, $number) 
     }
     $html .= '</td><td class="notification_rule_body notification_c2">';
 
-    if ($notification->g2 || $notification->g4 || $notification->g6 || $notification->n1 || $notification->n2 || $notification->consecutive) {
+    if ($notification->g2 || $notification->g4 || $notification->g6 || $notification->n1 || $notification->n2 ||
+        $notification->consecutive) {
 
         $html .= '<ul>';
         if ($notification->g2) {
@@ -2010,7 +2013,8 @@ function block_fn_mentor_send_notifications($notificationid=null, $output=false,
     }
 
     if ($notificationrules) {
-        $DB->execute("UPDATE {" . $notificationtbl . "} SET sent = 1 WHERE notificationid = ? AND sent = 0", array($notificationid));
+        $DB->execute("UPDATE {" . $notificationtbl . "} SET sent = 1 WHERE notificationid = ? AND sent = 0",
+            array($notificationid));
         foreach ($notificationrules as $notificationrule) {
             if ($list) {
                 $DB->execute("DELETE FROM {" . $notificationtbl . "} WHERE notificationid = ?", array($notificationid));
@@ -2333,7 +2337,8 @@ function block_fn_mentor_group_messages($list=false) {
                         $student = $DB->get_record('user', array('id' => $message->userid));
                         $course = $DB->get_record('course', array('id' => $message->courseid));
 
-                        $emailbody .= get_string('progressreportfrom', 'block_fn_mentor', format_string($site->fullname)) . ' <br />';
+                        $emailbody .= get_string('progressreportfrom', 'block_fn_mentor', format_string($site->fullname)) .
+                            ' <br />';
                         $emailbody .= get_string('student', 'block_fn_mentor') . ':  <strong>' .
                             $student->firstname . ' ' . $student->lastname . '</strong> <br /><hr />';
 
@@ -2453,7 +2458,7 @@ function block_fn_mentor_sms_to_user ($user, $from, $subject, $messagetext, $mes
 					   AND t1.shortname = ?
 					   AND t2.userid = ?";
 
-    for ($i =1; $i <= 2; $i++) {
+    for ($i = 1; $i <= 2; $i++) {
         if ($phonenumber = $DB->get_record_sql($sqlphonenumber, array('mobilephone'.$i, $user->id))) {
             $smsnumber = $phonenumber->data;
             if ($phoneprovider = $DB->get_record_sql($sqlprovider, array('mobileprovider'.$i, $user->id))) {
@@ -2578,54 +2583,54 @@ function block_fn_mentor_activity_progress($course, $menteeid, $modgradesarray) 
                             if ($grade = $gradefunction($instance, $menteeid)) {
                                 if ($item->gradepass > 0) {
                                     if ($grade[$menteeid]->rawgrade >= $item->gradepass) {
-                                        // Passed
+                                        // Passed.
                                         ++$completedactivities;
                                     } else {
-                                        // Failed
+                                        // Failed.
                                         ++$incompletedactivities;
                                     }
                                 } else {
-                                    // Graded
+                                    // Graded.
                                     ++$completedactivities;
                                 }
                             } else {
-                                // Ungraded
+                                // Ungraded.
                                 ++$notattemptedactivities;
                             }
                         } else if ($modstatus = block_fn_mentor_assignment_status($activity, $menteeid, true)) {
                             switch ($modstatus) {
                                 case 'submitted':
                                     if ($instance->grade == 0) {
-                                        // Graded
+                                        // Graded.
                                         ++$completedactivities;
-                                    } elseif ($grade = $gradefunction($instance, $menteeid)) {
+                                    } else if ($grade = $gradefunction($instance, $menteeid)) {
                                         if ($item->gradepass > 0) {
                                             if ($grade[$menteeid]->rawgrade >= $item->gradepass) {
-                                               // Passed
+                                                // Passed.
                                                 ++$completedactivities;
                                             } else {
                                                 // Fail.
                                                 ++$incompletedactivities;
                                             }
                                         } else {
-                                            // Graded
+                                            // Graded.
                                             ++$completedactivities;
                                         }
                                     }
                                     break;
 
                                 case 'saved':
-                                    // Saved
+                                    // Saved.
                                     ++$savedactivities;
                                     break;
 
                                 case 'waitinggrade':
-                                    // Waiting for grade
+                                    // Waiting for grade.
                                     ++$waitingforgradeactivities;
                                     break;
                             }
                         } else {
-                            // Ungraded
+                            // Ungraded.
                             ++$notattemptedactivities;
                         }
                     }
@@ -2704,7 +2709,8 @@ function block_fn_mentor_activity_progress($course, $menteeid, $modgradesarray) 
             '/blocks/fn_mentor/pix/unmarked.gif" class="icon" alt="">';
 
         $progressdata->completed = $completedactivities + $incompletedactivities;
-        $progressdata->total = $completedactivities + $incompletedactivities + $savedactivities + $notattemptedactivities + $waitingforgradeactivities;
+        $progressdata->total = $completedactivities + $incompletedactivities + $savedactivities + $notattemptedactivities +
+            $waitingforgradeactivities;
 
         $sql = "SELECT gg.id,
                        gg.rawgrademax,
@@ -2867,7 +2873,7 @@ function block_fn_mentor_simplegradebook($course, $menteeuser, $modgradesarray) 
                                             case 'submitted':
                                                 if ($instance->grade == 0) {
                                                     $simplegradebook[$key]['grade'][$i][$mod->id] = 'graded_.gif';
-                                                } elseif ($grade = $gradefunction($instance, $key)) {
+                                                } else if ($grade = $gradefunction($instance, $key)) {
                                                     if ($item->gradepass > 0) {
                                                         if ($grade[$key]->rawgrade >= $item->gradepass) {
                                                             $simplegradebook[$key]['grade'][$i][$mod->id] = 'marked.gif';// Passed.
@@ -3152,7 +3158,8 @@ function block_fn_mentor_modal_win($modalid, $linktext, $coursename, $sidelable,
 
     return '<br>
         <a href="#'.$modalid.'" role="button" data-toggle="modal">'.$linktext.'</a>
-        <div id="'.$modalid.'" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="'.$modalid.'Label" aria-hidden="true">
+        <div id="'.$modalid.'" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="'.$modalid.
+        'Label" aria-hidden="true">
           <div class="modal-header">
             <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
             <h3 id="'.$modalid.'Label">'.$coursename.'</h3>
@@ -3219,7 +3226,7 @@ function block_fn_mentor_add_group_member($userid, $groupid, $role) {
 function block_fn_mentor_remove_group_member($userid, $groupid, $role) {
     global $DB;
 
-    $user = $DB->get_record('user', array('id'=>$userid), '*', MUST_EXIST);
+    $user = $DB->get_record('user', array('id' => $userid), '*', MUST_EXIST);
 
     if ($user->deleted) {
         return false;
@@ -3241,7 +3248,8 @@ function block_fn_mentor_get_group_members($groupid, $role) {
     global $DB;
 
     if ($role == 'M') {
-        $select = "IF(gm.teamleader='1', CONCAT('[GT] ', u.firstname, ' ', u.lastname), CONCAT(u.firstname, ' ', u.lastname)) fullname";
+        $select = "IF(gm.teamleader='1', CONCAT('[GT] ', u.firstname, ' ', u.lastname),
+        CONCAT(u.firstname, ' ', u.lastname)) fullname";
     } else {
         $select = "CONCAT( u.firstname, ' ', u.lastname) fullname";
     }
@@ -3276,11 +3284,11 @@ function block_fn_mentor_users_has_active_enrollment() {
 
     $sql = "SELECT u.id, u.firstname, u.lastname, u.email
               FROM {course} c
-              JOIN {enrol} en 
+              JOIN {enrol} en
                 ON en.courseid = c.id
-              JOIN {user_enrolments} ue 
+              JOIN {user_enrolments} ue
                 ON ue.enrolid = en.id
-              JOIN {user} u 
+              JOIN {user} u
                 ON ue.userid = u.id
           GROUP BY u.id
           ORDER BY u.lastname ASC";
@@ -3304,14 +3312,14 @@ function block_fn_mentor_max_number_of_mentor($userids) {
               FROM (SELECT COUNT(ra2.id) numofmentor,
                            ctx.instanceid menteeid
                       FROM {context} ctx
-                      JOIN {role_assignments} ra2 
+                      JOIN {role_assignments} ra2
                         ON ctx.id = ra2.contextid
-                     WHERE ctx.instanceid {$sqlfilter} 
-                       AND ctx.contextlevel = ? 
+                     WHERE ctx.instanceid {$sqlfilter}
+                       AND ctx.contextlevel = ?
                        AND ra2.roleid = ?
                   GROUP BY ctx.instanceid) counts";
 
-    $rec =  $DB->get_record_sql($sql, $params);
+    $rec = $DB->get_record_sql($sql, $params);
     return $rec->maxmentor;
 }
 
@@ -3326,9 +3334,9 @@ function block_fn_mentor_get_assigned_mentors($userid) {
               FROM {role_assignments} ra
               JOIN {context} cx ON ra.contextid = cx.id
               JOIN {user} u ON ra.userid = u.id
-             WHERE cx.contextlevel = ? 
+             WHERE cx.contextlevel = ?
                AND ra.roleid = ?
-               AND cx.instanceid = ? 
+               AND cx.instanceid = ?
                AND u.deleted = ?
                AND u.suspended = ?";
 
@@ -3351,7 +3359,8 @@ function block_fn_mentor_assign_mentor_to_user($mentorid, $userid) {
     return false;
 }
 
-function block_fn_mentor_uu_validate_user_upload_columns(csv_import_reader $cir, $stdfields, $profilefields, moodle_url $returnurl) {
+function block_fn_mentor_uu_validate_user_upload_columns(csv_import_reader $cir, $stdfields, $profilefields,
+                                                         moodle_url $returnurl) {
     $columns = $cir->get_columns();
     if (empty($columns)) {
         $cir->close();
@@ -3364,25 +3373,25 @@ function block_fn_mentor_uu_validate_user_upload_columns(csv_import_reader $cir,
         print_error('csvfewcolumns', 'error', $returnurl);
     }
 
-    // test columns
+    // Test columns.
     $processed = array();
-    foreach ($columns as $key=>$unused) {
+    foreach ($columns as $key => $unused) {
         $field = $columns[$key];
         $lcfield = core_text::strtolower($field);
         if (in_array($field, $stdfields) or in_array($lcfield, $stdfields)) {
-            // standard fields are only lowercase
+            // Standard fields are only lowercase.
             $newfield = $lcfield;
 
         } else if (in_array($field, $profilefields)) {
-            // exact profile field name match - these are case sensitive
+            // Exact profile field name match - these are case sensitive.
             $newfield = $field;
 
         } else if (in_array($lcfield, $profilefields)) {
-            // hack: somebody wrote uppercase in csv file, but the system knows only lowercase profile field
+            // Hack: somebody wrote uppercase in csv file, but the system knows only lowercase profile field.
             $newfield = $lcfield;
 
         } else if (preg_match('/^(cohort|mentor_group|site_group|mentor)\d*$/', $lcfield)) {
-            // special fields for enrolments
+            // Special fields for enrolments.
             $newfield = $lcfield;
 
         } else {
@@ -3411,9 +3420,9 @@ function block_fn_mentor_concurrent_login($userid, $numofday) {
                AND log.timecreated >= ?
                AND log.timecreated <= ?";
 
-    for ($i=0; $i < $numofday; $i++) {
+    for ($i = 0; $i < $numofday; $i++) {
         $timestart = usergetmidnight($time - ($i * 24 * 60 * 60));
-        $timeend = $timestart + 24*60*60-1;
+        $timeend = $timestart + 24 * 60 * 60 - 1;
 
         if (!$DB->record_exists_sql($sql, array($userid, $timestart, $timeend))) {
             return false;
@@ -3430,7 +3439,7 @@ function block_fn_mentor_assign_mentor_from_profile($userid, $profilevalue) {
     $mentorrolesystem = get_config('block_fn_mentor', 'mentor_role_system');
     $mentorroleuser = get_config('block_fn_mentor', 'mentor_role_user');
 
-    if (!$mentorrolesystem || !$mentorroleuser){
+    if (!$mentorrolesystem || !$mentorroleuser) {
         return false;
     }
 

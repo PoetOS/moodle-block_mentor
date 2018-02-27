@@ -74,7 +74,7 @@ if ($process) {
         $redirecturl = new moodle_url('/blocks/fn_mentor/notification_rules.php');
         $report = block_fn_mentor_send_notifications($notificationid, true, false);
     }
-    
+
     echo $OUTPUT->header();
 
     echo '<div class="box generalbox" id="notice">

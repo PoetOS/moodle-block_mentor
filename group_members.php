@@ -137,10 +137,12 @@ $selectedmentorlabel = new html_table_cell();
 $selectedmentorlabel->text = html_writer::tag('strong', get_string('groupmentors', 'block_fn_mentor'));
 
 $selectedmenteelabel = new html_table_cell();
-$selectedmenteelabel->text = html_writer::tag('strong', get_string('groupmentees', 'block_fn_mentor'), array('id' => 'selected-mentee-label'));
+$selectedmenteelabel->text = html_writer::tag('strong', get_string('groupmentees', 'block_fn_mentor'),
+    array('id' => 'selected-mentee-label'));
 
 $potentialmenteelabel = new html_table_cell();
-$potentialmenteelabel->text = html_writer::tag('strong', get_string('availablementees', 'block_fn_mentor'), array('id' => 'potential-mentee-label'));
+$potentialmenteelabel->text = html_writer::tag('strong', get_string('availablementees', 'block_fn_mentor'),
+    array('id' => 'potential-mentee-label'));
 
 // Header row.
 $table->data[] = new html_table_row(
@@ -241,7 +243,7 @@ $selectedmentorselect->text = html_writer::select($selectedmentoroptions, '', ''
         'type' => 'button',
         'id' => 'btn-group-leader-toggle',
         'class' => 'btn btn-secondary',
-        //'data-toggle' => 'button'
+        // 'data-toggle' => 'button'
     )
 );
 

@@ -30,12 +30,11 @@ class export_form extends moodleform {
         $mform = $this->_form;
         $mform->addElement('header', '', get_string('export', 'block_fn_mentor'), '');
 
-        $mform->addElement('advcheckbox', 'mentorsandmanagers', '', get_string('export_mentorsandmanagers', 'block_fn_mentor'), array('disabled' => 'disabled'));
+        $mform->addElement('advcheckbox', 'mentorsandmanagers', '', get_string('export_mentorsandmanagers', 'block_fn_mentor'),
+            array('disabled' => 'disabled'));
         $mform->setDefault('mentorsandmanagers', 1);
         $mform->addElement('advcheckbox', 'includeenrolledusers', '', get_string('export_includeenrolledusers', 'block_fn_mentor'));
         $mform->addElement('advcheckbox', 'includeallusers', '', get_string('export_includeallusers', 'block_fn_mentor'));
-
-
 
         $mform->addElement('hidden', 'id');
         $mform->setType('id', PARAM_INT);

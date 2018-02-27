@@ -38,7 +38,6 @@ class fn_group_form extends moodleform {
         $mform->setType('idnumber', PARAM_TEXT);
         $mform->addRule('idnumber', null, 'required', null, 'client');
 
-
         $mform->addElement('hidden', 'id');
         $mform->setType('id', PARAM_INT);
 
@@ -48,14 +47,14 @@ class fn_group_form extends moodleform {
         $this->add_action_buttons(true, get_string('submit', 'block_fn_mentor'));
     }
 
-    function validation($data, $files) {
+    public function validation($data, $files) {
         global $DB;
 
         $errors = array();
 
         $idnumber = trim($data['idnumber']);
 
-        if ($data['id'] and $group = $DB->get_record('block_fn_mentor_group', array('id'=>$data['id']))) {
+        if ($data['id'] and $group = $DB->get_record('block_fn_mentor_group', array('id' => $data['id']))) {
             if (!empty($idnumber) && $group->idnumber != $idnumber) {
                 if (block_fn_mentor_get_group_by_idnumber($idnumber)) {
                     $errors['idnumber'] = get_string('idnumbertaken');

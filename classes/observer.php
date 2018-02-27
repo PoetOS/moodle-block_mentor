@@ -19,10 +19,11 @@
  * @copyright  Michael Gardener <mgardener@cissq.com>
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
-require_once($CFG->dirroot . '/user/profile/lib.php');
-require_once($CFG->dirroot . '/blocks/fn_mentor/lib.php');
 
 defined('MOODLE_INTERNAL') || die();
+
+require_once($CFG->dirroot . '/user/profile/lib.php');
+require_once($CFG->dirroot . '/blocks/fn_mentor/lib.php');
 
 /**
  * Event observers.

@@ -20,6 +20,8 @@
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
+defined('MOODLE_INTERNAL') || die();
+
 require_once($CFG->libdir . '/formslib.php');
 
 class coursecategory_form extends moodleform {
@@ -27,7 +29,7 @@ class coursecategory_form extends moodleform {
     public function definition() {
 
         $mform = $this->_form;
-        //$mform->addElement('static', 'description', '', get_string('markinmanagerscoursecatsdesc', 'block_fn_mentor'));
+        // $mform->addElement('static', 'description', '', get_string('markinmanagerscoursecatsdesc', 'block_fn_mentor'));
 
         $table = new html_table();
         $table->attributes['class'] = 'notification';

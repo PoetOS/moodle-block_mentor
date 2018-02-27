@@ -61,11 +61,11 @@ echo '</div>';
 
 echo html_writer::div(get_string('followingstudentsmatch', 'block_fn_mentor'), 'recipient-list-desc');
 
-$sql = "SELECT u.* 
-          FROM {user} u 
-         WHERE u.id IN (SELECT DISTINCT nl.userid 
-                          FROM {block_fn_mentor_notific_list} nl 
-                         WHERE nl.notificationid = ?) 
+$sql = "SELECT u.*
+          FROM {user} u
+         WHERE u.id IN (SELECT DISTINCT nl.userid
+                          FROM {block_fn_mentor_notific_list} nl
+                         WHERE nl.notificationid = ?)
       ORDER BY u.lastname ASC";
 
 if ($students = $DB->get_records_sql($sql, array($id))) {
@@ -76,12 +76,12 @@ if ($students = $DB->get_records_sql($sql, array($id))) {
 
 echo html_writer::div(get_string('followinguserssend', 'block_fn_mentor'), 'recipient-list-desc');
 
-$sql = "SELECT u.* 
-          FROM {user} u 
-         WHERE u.id IN (SELECT DISTINCT nl.receiverid 
-                          FROM {block_fn_mentor_notific_list} nl 
-                         WHERE nl.type = ? 
-                           AND nl.notificationid = ?) 
+$sql = "SELECT u.*
+          FROM {user} u
+         WHERE u.id IN (SELECT DISTINCT nl.receiverid
+                          FROM {block_fn_mentor_notific_list} nl
+                         WHERE nl.type = ?
+                           AND nl.notificationid = ?)
       ORDER BY u.lastname ASC";
 if ($users = $DB->get_records_sql($sql, array('student', $id))) {
     foreach ($users as $user) {

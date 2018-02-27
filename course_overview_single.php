@@ -213,7 +213,8 @@ $groupmenu[$groupmenuurl[0]] = get_string('allmentorgroups', 'block_fn_mentor');
 
 if ($groups) {
     foreach ($groups as $group) {
-        $groupmenuurl[$group->id] = $CFG->wwwroot . '/blocks/fn_mentor/course_overview_single.php?menteeid=' . $menteeid . '&groupid=' . $group->id;
+        $groupmenuurl[$group->id] = $CFG->wwwroot . '/blocks/fn_mentor/course_overview_single.php?menteeid=' . $menteeid .
+            '&groupid=' . $group->id;
         $groupmenu[$groupmenuurl[$group->id]] = $group->name;
     }
 
@@ -243,7 +244,8 @@ if ($showallstudents = get_config('block_fn_mentor', 'showallstudents')) {
 
 if ($mentees) {
     foreach ($mentees as $mentee) {
-        $studentmenuurl[$mentee->studentid] = $CFG->wwwroot.'/blocks/fn_mentor/course_overview_single.php?menteeid='.$mentee->studentid.'&groupid='.$groupid;
+        $studentmenuurl[$mentee->studentid] = $CFG->wwwroot.'/blocks/fn_mentor/course_overview_single.php?menteeid='.
+            $mentee->studentid.'&groupid='.$groupid;
         $studentmenu[$studentmenuurl[$mentee->studentid]] = $mentee->firstname .' '.$mentee->lastname;
     }
 }
@@ -293,17 +295,17 @@ if ($courseid == 0) {
         $menteeid.'&groupid=' . $groupid.'&courseid=0">'.get_string('allcourses', 'block_fn_mentor').'</a></div>';
 }
 foreach ($enrolledcourses as $enrolledcourse) {
-    $course_fullname = format_string($enrolledcourse->fullname); //allow mlang filters to process language strings
-    
+    $coursefullname = format_string($enrolledcourse->fullname); // Allow mlang filters to process language strings.
+
     if ($courseid == $enrolledcourse->id) {
         $courselist .= '<div class="courselist active"><img class="mentees-course-bullet" src="'.
             $CFG->wwwroot.'/blocks/fn_mentor/pix/b.gif"><a href="'.$CFG->wwwroot.
             '/blocks/fn_mentor/course_overview_single.php?menteeid='.$menteeid.'&groupid=' . $groupid.
-            '&courseid='.$enrolledcourse->id.'">'.$course_fullname.'</a></div>';
+            '&courseid='.$enrolledcourse->id.'">'.$coursefullname.'</a></div>';
     } else {
         $courselist .= '<div class="courselist"><img class="mentees-course-bullet" src="'.$CFG->wwwroot.
             '/blocks/fn_mentor/pix/b.gif"><a href="'.$CFG->wwwroot.'/blocks/fn_mentor/course_overview_single.php?menteeid='.
-            $menteeid.'&groupid=' . $groupid.'&courseid='.$enrolledcourse->id.'">'.$course_fullname.'</a></div>';
+            $menteeid.'&groupid=' . $groupid.'&courseid='.$enrolledcourse->id.'">'.$coursefullname.'</a></div>';
     }
 }
 
@@ -338,13 +340,13 @@ if ($navpage == 'overview') {
 }
 
 // CENTER.
-$course_fullname = format_string($course->fullname); //allow mlang filters to process language strings
+$coursefullname = format_string($course->fullname); // Allow mlang filters to process language strings.
 echo '<div id="mentee-course-overview-center-single" class="block">'.
     '<div id="mentee-course-overview-center-menu-container">';
 echo '<div class="mentee-course-overview-center-course-title"><a  href="'.$CFG->wwwroot.'/course/view.php?id='.
     $course->id.'" onclick="window.open(\''.$CFG->wwwroot.'/course/view.php?id='.$course->id.
     '\', \'\', \'width=800,height=600,toolbar=no,location=no,menubar=no,copyhistory=no,status=no,directories=no,'.
-    'scrollbars=yes,resizable=yes\'); return false;" class="" >'.$course_fullname.'</a></div>';
+    'scrollbars=yes,resizable=yes\'); return false;" class="" >'.$coursefullname.'</a></div>';
 
 echo '<div class="mentee-course-overview-center-course-menu">
           <table class="mentee-menu">
@@ -514,7 +516,7 @@ if ($navpage == 'overview') {
             if ($value['numofweek']) {
                 foreach ($value['mod'] as $index => $imagelink) {
                     $longactivityname = $value['modname'][$index];
-                    $displayname= shorten_text($value['modname'][$index], 30);
+                    $displayname = shorten_text($value['modname'][$index], 30);
                     $formattedactivityname = format_string($displayname, true, array('context' => $context));
                     echo '<th scope="col" align="center">'.
                         '<span class="completion-activityname">'.

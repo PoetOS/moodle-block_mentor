@@ -148,7 +148,8 @@ $groupmenu[$groupmenuurl[0]] = get_string('allmentorgroups', 'block_fn_mentor');
 
 if ($groups) {
     foreach ($groups as $group) {
-        $groupmenuurl[$group->id] = $CFG->wwwroot . '/blocks/fn_mentor/course_overview.php?menteeid=' . $menteeid . '&groupid=' . $group->id;
+        $groupmenuurl[$group->id] = $CFG->wwwroot . '/blocks/fn_mentor/course_overview.php?menteeid=' . $menteeid .
+            '&groupid=' . $group->id;
         $groupmenu[$groupmenuurl[$group->id]] = $group->name;
     }
 
@@ -178,7 +179,8 @@ if ($showallstudents = get_config('block_fn_mentor', 'showallstudents')) {
 
 if ($mentees) {
     foreach ($mentees as $mentee) {
-        $studentmenuurl[$mentee->studentid] = $CFG->wwwroot.'/blocks/fn_mentor/course_overview.php?menteeid='.$mentee->studentid.'&groupid='.$groupid;
+        $studentmenuurl[$mentee->studentid] = $CFG->wwwroot.'/blocks/fn_mentor/course_overview.php?menteeid='.$mentee->studentid.
+            '&groupid='.$groupid;
         $studentmenu[$studentmenuurl[$mentee->studentid]] = $mentee->firstname .' '.$mentee->lastname;
     }
 }
@@ -279,17 +281,17 @@ if ($courseid == 0) {
         get_string('allcourses', 'block_fn_mentor').'</a></div>';
 }
 foreach ($enrolledcourses as $enrolledcourse) {
-       $course_fullname = format_string($enrolledcourse->fullname); //allow mlang filters to process language strings
+       $coursefullname = format_string($enrolledcourse->fullname); // Allow mlang filters to process language strings.
     if ($courseid == $enrolledcourse->id) {
         $courselist .= '<div class="courselist active">
             <img class="mentees-course-bullet" src="'.$CFG->wwwroot.'/blocks/fn_mentor/pix/b.gif">'.
             '<a href="'.$CFG->wwwroot.'/blocks/fn_mentor/course_overview_single.php?menteeid='.
-            $menteeid.'&courseid='.$enrolledcourse->id.'">'.$course_fullname.'</a></div>';
+            $menteeid.'&courseid='.$enrolledcourse->id.'">'.$coursefullname.'</a></div>';
     } else {
         $courselist .= '<div class="courselist">
             <img class="mentees-course-bullet" src="'.$CFG->wwwroot.'/blocks/fn_mentor/pix/b.gif">'.
             '<a href="'.$CFG->wwwroot.'/blocks/fn_mentor/course_overview_single.php?menteeid='.
-            $menteeid.'&courseid='.$enrolledcourse->id.'">'.$course_fullname.'</a></div>';
+            $menteeid.'&courseid='.$enrolledcourse->id.'">'.$coursefullname.'</a></div>';
     }
 }
 
@@ -369,8 +371,8 @@ echo '<div id="mentee-course-overview-center">';
 if ($enrolledcourses) {
 
     foreach ($enrolledcourses as $enrolledcourse) {
-        $course_fullname = format_string($enrolledcourse->fullname); //allow mlang filters to process language strings
-        
+        $coursefullname = format_string($enrolledcourse->fullname); // Allow mlang filters to process language strings.
+
         if ($courseid && ($courseid <> $enrolledcourse->id)) {
             continue;
         }
@@ -398,7 +400,7 @@ if ($enrolledcourses) {
             $enrolledcourse->id . '" onclick="window.open(\'' . $CFG->wwwroot . '/course/view.php?id=' .
             $enrolledcourse->id . '\', \'\', \'width=800,height=600,toolbar=no,location=no,menubar=no,'.
             'copyhistory=no,status=no,directories=no,scrollbars=yes,resizable=yes\'); return false;" class="" >' .
-            $course_fullname . '</a></div>';
+            $coursefullname . '</a></div>';
 
         echo '<div class="overview-teacher">';
         echo '<table class="mentee-teacher-table">';
@@ -428,7 +430,8 @@ if ($enrolledcourses) {
             if ($numofteachers > 1) {
                 $teacherlabel = $teacherlabel.'s';
             }
-            echo '<tr><td class="mentee-teacher-table-label" valign="top"><span>' . $teacherlabel . ': </span></td><td valign="top">';
+            echo '<tr><td class="mentee-teacher-table-label" valign="top"><span>' . $teacherlabel .
+                ': </span></td><td valign="top">';
             if ($numofteachers > 1) {
                 echo $numofteachers . ' ' . $teacherlabel;
                 echo block_fn_mentor_modal_win(

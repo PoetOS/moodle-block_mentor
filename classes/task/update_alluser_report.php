@@ -22,6 +22,7 @@
 
 namespace block_fn_mentor\task;
 
+defined('MOODLE_INTERNAL') || die();
 
 class update_alluser_report extends \core\task\scheduled_task {
 

@@ -68,7 +68,7 @@ if ($mform->is_cancelled()) {
 
     set_config('category', '',  'block_fn_mentor');
     set_config('course', '',  'block_fn_mentor');
-    
+
     foreach ($_POST as $key => $value) {
         if (strpos($key, "category_") === 0) {
             if (isset($value)) {

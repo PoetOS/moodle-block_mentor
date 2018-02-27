@@ -22,6 +22,7 @@
 
 namespace block_fn_mentor\task;
 
+defined('MOODLE_INTERNAL') || die();
 
 class send_user_notification extends \core\task\scheduled_task {
 

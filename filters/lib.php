@@ -23,6 +23,8 @@
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
+defined('MOODLE_INTERNAL') || die();
+
 require_once($CFG->dirroot.'/user/filters/text.php');
 require_once($CFG->dirroot.'/user/filters/date.php');
 require_once($CFG->dirroot.'/user/filters/select.php');
@@ -71,10 +73,11 @@ class fn_user_filtering {
         }
 
         if (empty($fieldnames)) {
-            $fieldnames = array('realname' => 0, 'lastname' => 1, 'firstname' => 1, 'username' => 1, 'email' => 1, 'city' => 1, 'country' => 1,
-                                'confirmed' => 1, 'suspended' => 1, 'profile' => 1, 'courserole' => 1, 'systemrole' => 1,
-                                'cohort' => 1, 'firstaccess' => 1, 'lastaccess' => 1, 'neveraccessed' => 1, 'timemodified' => 1,
-                                'nevermodified' => 1, 'auth' => 1, 'mnethostid' => 1, 'idnumber' => 1, 'institution' => 1);
+            $fieldnames = array('realname' => 0, 'lastname' => 1, 'firstname' => 1, 'username' => 1, 'email' => 1, 'city' => 1,
+                                'country' => 1, 'confirmed' => 1, 'suspended' => 1, 'profile' => 1, 'courserole' => 1,
+                                'systemrole' => 1, 'cohort' => 1, 'firstaccess' => 1, 'lastaccess' => 1, 'neveraccessed' => 1,
+                                'timemodified' => 1, 'nevermodified' => 1, 'auth' => 1, 'mnethostid' => 1, 'idnumber' => 1,
+                                'institution' => 1);
         }
 
         $this->_fields  = array();
@@ -103,13 +106,15 @@ class fn_user_filtering {
             }
             // Clear the form.
             $_POST = array();
-            $this->_addform = new fn_user_add_filter_form($baseurl, array('fields' => $this->_fields, 'extraparams' => $extraparams));
+            $this->_addform = new fn_user_add_filter_form($baseurl,
+                array('fields' => $this->_fields, 'extraparams' => $extraparams));
         }
 
         $this->_closeform = new fn_user_close_filter_form($returnurl);
 
         // Now the active filters.
-        $this->_activeform = new fn_user_active_filter_form($baseurl, array('fields' => $this->_fields, 'extraparams' => $extraparams));
+        $this->_activeform = new fn_user_active_filter_form($baseurl,
+            array('fields' => $this->_fields, 'extraparams' => $extraparams));
         if ($adddata = $this->_activeform->get_data()) {
             if (!empty($adddata->removeall)) {
                 $SESSION->$filtersession = array();
@@ -129,7 +134,8 @@ class fn_user_filtering {
             }
             // Clear+reload the form.
             $_POST = array();
-            $this->_activeform = new fn_user_active_filter_form($baseurl, array('fields' => $this->_fields, 'extraparams' => $extraparams));
+            $this->_activeform = new fn_user_active_filter_form($baseurl,
+                array('fields' => $this->_fields, 'extraparams' => $extraparams));
         }
         // Now the active filters.
     }
@@ -144,26 +150,69 @@ class fn_user_filtering {
         global $USER, $CFG, $DB, $SITE;
 
         switch ($fieldname) {
-            case 'username':    return new user_filter_text('username', get_string('username'), $advanced, 'username');
-            case 'realname':    return new user_filter_text('realname', get_string('fullnameuser'), $advanced, $DB->sql_fullname());
-            case 'lastname':    return new user_filter_text('lastname', get_string('lastname'), $advanced, 'lastname');
-            case 'firstname':    return new user_filter_text('firstname', get_string('firstname'), $advanced, 'firstname');
-            case 'email':       return new user_filter_text('email', get_string('email'), $advanced, 'email');
-            case 'city':        return new user_filter_text('city', get_string('city'), $advanced, 'city');
-            case 'institution': return new user_filter_text('institution', get_string('institution'), $advanced, 'institution');
-            case 'country':     return new user_filter_select('country', get_string('country'), $advanced, 'country', get_string_manager()->get_list_of_countries(), $USER->country);
-            case 'confirmed':   return new user_filter_yesno('confirmed', get_string('confirmed', 'admin'), $advanced, 'confirmed');
-            case 'suspended':   return new user_filter_yesno('suspended', get_string('suspended', 'auth'), $advanced, 'suspended');
-            case 'profile':     return new user_filter_profilefield('profile', get_string('profilefields', 'admin'), $advanced);
-            case 'courserole':  return new user_filter_courserole('courserole', get_string('courserole', 'filters'), $advanced);
-            case 'systemrole':  return new user_filter_globalrole('systemrole', get_string('globalrole', 'role'), $advanced);
-            case 'firstaccess': return new user_filter_date('firstaccess', get_string('firstaccess', 'filters'), $advanced, 'firstaccess');
-            case 'lastaccess':  return new user_filter_date('lastaccess', get_string('lastaccess'), $advanced, 'lastaccess');
-            case 'neveraccessed': return new user_filter_checkbox('neveraccessed', get_string('neveraccessed', 'filters'), $advanced, 'firstaccess', array('lastaccess_sck', 'lastaccess_eck', 'firstaccess_eck', 'firstaccess_sck'));
-            case 'timemodified': return new user_filter_date('timemodified', get_string('lastmodified'), $advanced, 'timemodified');
-            case 'nevermodified': return new user_filter_checkbox('nevermodified', get_string('nevermodified', 'filters'), $advanced, array('timemodified', 'timecreated'), array('timemodified_sck', 'timemodified_eck'));
-            case 'cohort':      return new user_filter_cohort($advanced);
-            case 'idnumber':    return new user_filter_text('idnumber', get_string('idnumber'), $advanced, 'idnumber');
+            case 'username':
+                return new user_filter_text('username', get_string('username'), $advanced, 'username');
+
+            case 'realname':
+                return new user_filter_text('realname', get_string('fullnameuser'), $advanced, $DB->sql_fullname());
+
+            case 'lastname':
+                return new user_filter_text('lastname', get_string('lastname'), $advanced, 'lastname');
+
+            case 'firstname':
+                return new user_filter_text('firstname', get_string('firstname'), $advanced, 'firstname');
+
+            case 'email':
+                return new user_filter_text('email', get_string('email'), $advanced, 'email');
+
+            case 'city':
+                return new user_filter_text('city', get_string('city'), $advanced, 'city');
+
+            case 'institution':
+                return new user_filter_text('institution', get_string('institution'), $advanced, 'institution');
+
+            case 'country':
+                return new user_filter_select('country', get_string('country'), $advanced, 'country',
+                    get_string_manager()->get_list_of_countries(), $USER->country);
+
+            case 'confirmed':
+                return new user_filter_yesno('confirmed', get_string('confirmed', 'admin'), $advanced, 'confirmed');
+
+            case 'suspended':
+                return new user_filter_yesno('suspended', get_string('suspended', 'auth'), $advanced, 'suspended');
+
+            case 'profile':
+                return new user_filter_profilefield('profile', get_string('profilefields', 'admin'), $advanced);
+
+            case 'courserole':
+                return new user_filter_courserole('courserole', get_string('courserole', 'filters'), $advanced);
+
+            case 'systemrole':
+                return new user_filter_globalrole('systemrole', get_string('globalrole', 'role'), $advanced);
+
+            case 'firstaccess':
+                return new user_filter_date('firstaccess', get_string('firstaccess', 'filters'), $advanced, 'firstaccess');
+
+            case 'lastaccess':
+                return new user_filter_date('lastaccess', get_string('lastaccess'), $advanced, 'lastaccess');
+
+            case 'neveraccessed':
+                return new user_filter_checkbox('neveraccessed', get_string('neveraccessed', 'filters'), $advanced, 'firstaccess',
+                    array('lastaccess_sck', 'lastaccess_eck', 'firstaccess_eck', 'firstaccess_sck'));
+
+            case 'timemodified':
+                return new user_filter_date('timemodified', get_string('lastmodified'), $advanced, 'timemodified');
+
+            case 'nevermodified':
+                return new user_filter_checkbox('nevermodified', get_string('nevermodified', 'filters'), $advanced,
+                    array('timemodified', 'timecreated'), array('timemodified_sck', 'timemodified_eck'));
+
+            case 'cohort':
+                return new user_filter_cohort($advanced);
+
+            case 'idnumber':
+                return new user_filter_text('idnumber', get_string('idnumber'), $advanced, 'idnumber');
+
             case 'auth':
                 $plugins = core_component::get_plugin_list('auth');
                 $choices = array();
@@ -198,7 +247,8 @@ class fn_user_filtering {
                 if (count($choices) < 2) {
                     return null; // Filter not needed.
                 }
-                return new user_filter_simpleselect('mnethostid', get_string('mnetidprovider', 'mnet'), $advanced, 'mnethostid', $choices);
+                return new user_filter_simpleselect('mnethostid', get_string('mnetidprovider', 'mnet'), $advanced, 'mnethostid',
+                    $choices);
 
             default:
                 return null;
@@ -367,8 +417,8 @@ class fn_user_filter_type {
      * Adds controls specific to this filter in the form.
      * @param moodleform $mform a MoodleForm object to setup
      */
-    public function setupForm(&$mform) {
-        print_error('mustbeoveride', 'debug', '', 'setupForm');
+    public function setup_form(&$mform) {
+        print_error('mustbeoveride', 'debug', '', 'setup_form');
     }
 
     /**

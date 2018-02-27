@@ -20,6 +20,8 @@
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
+defined('MOODLE_INTERNAL') || die();
+
 require_once($CFG->libdir . '/formslib.php');
 $PAGE->requires->js('/blocks/fn_mentor/validation.js');
 
@@ -91,7 +93,6 @@ class notification_form extends moodleform {
                 $n2value = $this->_customdata['n2_value'];
             }
         }
-
 
         $consecutive = 'block_fn_mentor_checkbox';
         if (isset($this->_customdata['consecutive'])) {
@@ -188,7 +189,6 @@ class notification_form extends moodleform {
             }
         }
 
-
         $studentgreeting = '';
         if (isset($this->_customdata['studentgreeting'])) {
             $studentgreeting = $this->_customdata['studentgreeting'];
@@ -235,7 +235,8 @@ class notification_form extends moodleform {
                 block_fn_mentor_textinput('n2_value', 'n2_value', '_textinput', $n2value) . ' days <N2>'
             ) .
             html_writer::tag('p', $consecutive('consecutive', 'consecutive2', '_checkbox', 1) . ' Logged in for ' .
-                block_fn_mentor_textinput('consecutive_value', 'consecutive_value', '_textinput', $consecutivevalue) . ' consecutive days <N2>'
+                block_fn_mentor_textinput('consecutive_value', 'consecutive_value', '_textinput', $consecutivevalue) .
+                ' consecutive days <N2>'
             )
         );
         $mform->addElement('html', '</td>');
@@ -299,8 +300,7 @@ class notification_form extends moodleform {
             'rolename' => get_string('rolename', 'block_fn_mentor'),
             'sirmadam' => get_string('sirmadam', 'block_fn_mentor'),
         );
-        
-        
+
         // Student.
         $mform->addElement('html', '<tr>');
         $mform->addElement('html', '<th colspan="2">');
@@ -320,7 +320,6 @@ class notification_form extends moodleform {
         $mform->addElement('html', '</td>');
         $mform->addElement('html', '</tr>');
 
-
         // Mentor.
         $mform->addElement('html', '<tr>');
         $mform->addElement('html', '<th colspan="2">');
@@ -339,7 +338,6 @@ class notification_form extends moodleform {
         $mform->setType('mentorappendedmsg', PARAM_RAW);
         $mform->addElement('html', '</td>');
         $mform->addElement('html', '</tr>');
-
 
         // Teacher.
         $mform->addElement('html', '<tr>');
@@ -376,7 +374,6 @@ class notification_form extends moodleform {
         $mform->addElement('html', '</tr>');
 
         $mform->addElement('html', '</table>');
-
 
         $this->add_action_buttons();
 
